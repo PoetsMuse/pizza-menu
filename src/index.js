@@ -102,16 +102,19 @@ function Menu(){
 
 function Pizza(props) {
   console.log(props);
-  return (
-      <li className='pizza'>
-          <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
-          <div>
-            <h3>{props.pizzaObj.name}</h3>
-            <p>{props.pizzaObj.ingredients}</p>
-            <span>{props.pizzaObj.price}</span>
-          </div>
+
+if (props.pizzaObj.soldOut) return null;
+
+return (
+  <li className='pizza'>
+    <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
+    <div>
+      <h3>{props.pizzaObj.name}</h3>
+      <p>{props.pizzaObj.ingredients}</p>
+      <span>{props.pizzaObj.price}</span>
+    </div>
           
-      </li>
+  </li>
   );
 }
 
@@ -125,21 +128,33 @@ function Footer(){
     const isOpen = hour >= openHour && hour <= closeHour;
     console.log(isOpen);
 
-    // if(hour >= openHour && hour <= closeHour) alert("We're currently open."); else alert("Sorry, we're closed.")
+
+  // if(!isOpen) 
+  // return (
+  //   <p>We are closed now. Please come back at {openHour}:00</p>
+  // ); 
+  //!!!!!!!!!!!  IN THIS CASE THE ENTIRE FOOTER BELOW WOULD NOT BE RENDERED
+  // !!!!!!!!!!  USE TERNARY INSTEAD
 
     return (
     <footer className='footer'>
       {isOpen ? (
-        <div className="order">
-          <p>
-            We are open until {closeHour}:00. Come visit us or order online.
-          </p>
-          <button className='btn'>Order</button>
-        </div>
+        <Order openHour={openHour} closeHour={closeHour} />
       ) : (
       <p>We're happy to welcome you between {openHour}:00 and {closeHour}:00</p>)
       }
     </footer>);
+}
+
+function Order(props) {
+  return (
+    <div className="order">
+          <p>
+            We are open until {props.closeHour}:00. Come visit us or order online.
+          </p>
+          <button className='btn'>Order</button>
+        </div>
+  )
 }
 
 // const Test = () => {
